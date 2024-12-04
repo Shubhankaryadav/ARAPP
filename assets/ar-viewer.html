@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Model Viewer</title>
+  <script type="module">
+    import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.150.0/examples/js/loaders/GLTFLoader.js';
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.module.js';
+
+    window.onload = () => {
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      const loader = new GLTFLoader();
+      loader.load(
+        'https://drive.google.com/uc?id=14zx-AYxAppevbeAEWBPcwi9JwFtiZsSc', // Direct link to your model
+        (gltf) => {
+          scene.add(gltf.scene);
+          gltf.scene.position.set(0, 0, 0);
+        },
+        undefined,
+        (error) => console.error(error)
+      );
+
+      camera.position.z = 5;
+
+      const animate = () => {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      };
+      animate();
+    };
+  </script>
+</head>
+<body></body>
+</html>
